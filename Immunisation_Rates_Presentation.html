@@ -63,6 +63,37 @@ Natalie Phillips
 <p>The statistics in this presentation were gathered from the <a href="http://www.immunise.health.gov.au/">Immunise Australia Program</a> webpage from the Australian Government - Department of Health.</p>
 <p>Create the data folders.</p>
 <p>Download the data from the website.</p>
+<p>Load the eight spreadsheets into a single dataframe noting the unique “date of processing” of each file.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">allframes &lt;-<span class="st"> </span><span class="kw">apply</span>(dataDetails, <span class="dv">1</span>, readFile2)
+
+immDataAll &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind,allframes)
+
+immDataAll$Age_Group &lt;-<span class="st"> </span><span class="kw">ageFactors</span>(immDataAll$Age_Group)
+
+<span class="kw">save</span>(immDataAll, <span class="dt">file =</span> <span class="st">&quot;.</span><span class="ch">\\</span><span class="st">data</span><span class="ch">\\</span><span class="st">processed</span><span class="ch">\\</span><span class="st">immDataAll.Rda&quot;</span>)
+
+<span class="kw">head</span>(immDataAll)</code></pre></div>
+<pre><code>##   PHN_Number                   PHN_Name     Age_Group PCT_DTP PCT_Polio
+## 1         NM                 Not mapped 12-&lt;15 Months   88.48     88.48
+## 2     PHN101 Central and Eastern Sydney 12-&lt;15 Months   93.81     93.75
+## 3     PHN102            Northern Sydney 12-&lt;15 Months   95.35     95.32
+## 4     PHN103             Western Sydney 12-&lt;15 Months   93.97     93.89
+## 5     PHN104      Nepean Blue Mountains 12-&lt;15 Months   96.01     96.01
+## 6     PHN105       South Western Sydney 12-&lt;15 Months   93.64     93.67
+##   PCT_HIB PCT_HEP PCT_MMR PCT_Pneumo PCT_MenC PCT_Varicella PCT_Fully
+## 1   87.96   88.48       0      88.48        0             0     87.96
+## 2   93.42   93.71       0      93.04        0             0     92.46
+## 3   95.16   95.20       0      94.86        0             0     94.22
+## 4   93.34   93.72       0      93.37        0             0     92.38
+## 5   95.77   96.01       0      96.01        0             0     95.69
+## 6   93.70   93.67       0      92.98        0             0     92.75
+##   Time_Period
+## 1  2016-12-31
+## 2  2016-12-31
+## 3  2016-12-31
+## 4  2016-12-31
+## 5  2016-12-31
+## 6  2016-12-31</code></pre>
 </div>
 <div id="slide-with-bullets" class="slide section level2">
 <h1>Slide with Bullets</h1>

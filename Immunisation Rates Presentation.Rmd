@@ -65,6 +65,74 @@ invisible(apply(dataDetails, 1, readFile))
 
 ```
 
+Load the eight spreadsheets into a single dataframe noting the unique "date of processing" of each file.
+
+```{r defineFun, echo=FALSE}
+immClasses <- c(
+    "character"
+    ,"character"
+    ,"character"
+    ,"numeric"
+    ,"numeric"
+    ,"numeric"
+    ,"numeric"
+    ,"numeric"
+    ,"numeric"
+    ,"numeric"
+    ,"numeric"
+    ,"numeric"
+)
+
+colClean <- function(x){
+    colnames(x) <- gsub("\\.+", "_", colnames(x));
+    colnames(x) <- gsub("X_", "PCT_", colnames(x));
+    colnames(x) <- gsub("_$", "", colnames(x));
+    x 
+}
+
+ageFactors <- function(x){
+    x <- factor(
+        x
+        ,levels = c(
+            "12-<15 Months"
+            ,"24-<27 Months"
+            ,"60-<63 Months"
+        )
+        ,ordered=TRUE
+    );
+    x
+}
+
+readFile2 <- function(x){
+    immData <- read.xlsx2(
+        file = x[[2]]
+        ,sheetName = x[[3]]
+        ,startRow = as.numeric(x[4])
+        ,endRow = as.numeric(x[5])
+        ,colClasses = immClasses
+    )
+    immData <- colClean(immData)
+
+    immData <- mutate(immData, Time_Period = as.Date(as.numeric(x[6])-2, 
+                                                     origin="1900-01-01"))
+}
+
+```
+
+```{r load,cache=TRUE, echo=TRUE}
+allframes <- apply(dataDetails, 1, readFile2)
+
+immDataAll <- do.call(rbind,allframes)
+
+immDataAll$Age_Group <- ageFactors(immDataAll$Age_Group)
+
+save(immDataAll, file = ".\\data\\processed\\immDataAll.Rda")
+
+head(immDataAll)
+
+
+```
+
 ## Slide with Bullets
 
 - Bullet 1

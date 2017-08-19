@@ -112,7 +112,11 @@ immDataAll$Age_Group <- ageFactors(immDataAll$Age_Group)
 
 save(immDataAll, file = ".\\data\\processed\\immDataAll.Rda")
 
+write.xlsx(immDataAll, ".\\data\\processed\\immDataAll.xlsx", row.names = FALSE)
 
+# State reference for each PHN_Number
+stateAbb <- read.xlsx2(".\\data\\processed\\immDataAll_working.xlsx", 
+                       sheetName = "Sheet2")
 
 for (i in c(1 : nrow(dataDetails))){
     immData <- readFile2(dataDetails[i, ])
