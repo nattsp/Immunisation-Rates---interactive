@@ -1,0 +1,10 @@
+name: ImmunisationRates
+title: ImmunisationRates
+account: nattsapps
+server: shinyapps.io
+appId: 206051
+bundleId: 946450
+url: https://nattsapps.shinyapps.io/ImmunisationRates/
+when: 1503118167.04415
+asMultiple: FALSE
+asStatic: FALSE
