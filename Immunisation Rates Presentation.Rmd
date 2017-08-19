@@ -41,6 +41,15 @@ Download the data from the website.
 dataDetails <- read.xlsx2(
     file = ".\\data\\dataDetails.xlsx"
     ,sheetName = "Sheet1"
+    ,colClasses = c(
+        "character"
+        ,"character"
+        ,"character"
+        ,"numeric"
+        ,"numeric"
+        ,"numeric"
+        ,"character"
+    )
 )
 
 readFile <- function(x){
