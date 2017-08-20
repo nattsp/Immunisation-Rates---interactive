@@ -43,4 +43,42 @@ ggplot(immDataRegion, aes(x=Time_Period, y=Percent,
 
 names(immDataAll)
 
+vacc <- c('PCT_DTP')
 
+
+
+    if (vacc=='PCT_DTP'){
+        plotData <- immDataAll %>% 
+            select(PCT_DTP, PCT_Fully) %>%
+            filter(PCT_DTP > 0)
+    } else if (vacc=="PCT_Polio"){
+        plotData <- immDataAll %>% 
+            select(PCT_Polio, PCT_Fully) %>%
+            filter(PCT_Polio > 0)
+    } else if (vacc=="PCT_HIB") {
+        plotData <- immDataAll %>% 
+            select(PCT_HIB, PCT_Fully) %>%
+            filter(PCT_HIB > 0)
+    } else if (vacc=="PCT_HEP") {
+        plotData <- immDataAll %>% 
+            select(PCT_HEP, PCT_Fully) %>%
+            filter(PCT_HEP > 0)
+    } else if (vacc=="PCT_MMR") {
+        plotData <- immDataAll %>% 
+            select(PCT_MMR, PCT_Fully) %>%
+            filter(PCT_MMR > 0)
+    } else if (vacc=="PCT_Pneumo") {
+        plotData <- immDataAll %>% 
+            select(PCT_Pneumo, PCT_Fully) %>%
+            filter(PCT_Pneumo > 0)
+    } else if (vacc=="PCT_MenC") {
+        plotData <- immDataAll %>% 
+            select(PCT_MenC, PCT_Fully) %>%
+            filter(PCT_MenC > 0)
+    } else {
+        plotData <- immDataAll %>% 
+            select(PCT_Varicella, PCT_Fully) %>%
+            filter(PCT_Varicella > 0)
+    }
+    names(plotData) <- "x"
+    head(plotData)

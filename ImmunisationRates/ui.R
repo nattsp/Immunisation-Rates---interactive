@@ -8,7 +8,7 @@
 
 library(shiny)
 shinyUI(fluidPage(
-    titlePanel("Immunisations Rates for in Australia"),
+    titlePanel("Immunisations Rates for Australia"),
     sidebarLayout(
         sidebarPanel(
             h3("Choose which vaccinations to see"),
