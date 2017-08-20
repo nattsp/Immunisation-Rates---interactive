@@ -1,5 +1,5 @@
 ---
-title: "Immunisation Rates Presentation"
+title: "Immunisation Rates In Australia"
 author: "Natalie Phillips"
 date: "19 August 2017"
 output: slidy_presentation
@@ -18,11 +18,11 @@ library(ggplot2)
 
 ## Immunisation Rates in Australia
 
-There are new laws in Australia limiting financial assistance to families where children are not immunised. It is important we understand the rate of immunisation in this country. 
+It is important we understand the rate of immunisation in Australia. There are new laws in Australia limiting financial assistance to families where children are not immunised. It is also important for planning medical programs and advertising campaigns.
 
-This app provides a simple way to see how different types of immunisations are taken up when compared to the total immunisation rates.  You can also see the variance over time in different regions in Australia.
+This app provides a simple way to see how different types of immunisations are taken up in the comunity when compared to the total immunisation rates.  You can also see the variance over time in different regions in Australia.
 
-To do this we have leveraged publicly available immunisation data from the government.
+To do this I have leveraged publicly available immunisation data from the government.
 
 
 ## Getting the data
@@ -78,7 +78,7 @@ invisible(apply(dataDetails, 1, readFile))
 
 ```
 
-All eight spreadsheets are then read into a single dataframe noting the unique "date of processing" of each file. This data is now ready for use and further refinement in the shiny app.
+The full data is contained in eight separate spreadsheets. All eight spreadsheets are  read into a single dataframe noting the unique "date of processing" of each file. This data is now ready for use and further refinement in the shiny app.
 
 ```{r defineFun, echo=FALSE}
 immClasses <- c(

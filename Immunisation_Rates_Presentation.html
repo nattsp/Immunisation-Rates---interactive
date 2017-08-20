@@ -7,7 +7,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Natalie Phillips" />
   <meta name="date" content="2017-08-19" />
-  <title>Immunisation Rates Presentation</title>
+  <title>Immunisation Rates In Australia</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
 div.sourceCode { overflow-x: auto; }
@@ -51,7 +51,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </head>
 <body>
 <div class="slide titlepage">
-  <h1 class="title">Immunisation Rates Presentation</h1>
+  <h1 class="title">Immunisation Rates In Australia</h1>
   <p class="author">
 Natalie Phillips
   </p>
@@ -59,9 +59,9 @@ Natalie Phillips
 </div>
 <div id="immunisation-rates-in-australia" class="slide section level2">
 <h1>Immunisation Rates in Australia</h1>
-<p>There are new laws in Australia limiting financial assistance to families where children are not immunised. It is important we understand the rate of immunisation in this country.</p>
-<p>This app provides a simple way to see how different types of immunisations are taken up when compared to the total immunisation rates. You can also see the variance over time in different regions in Australia.</p>
-<p>To do this we have leveraged publicly available immunisation data from the government.</p>
+<p>It is important we understand the rate of immunisation in Australia. There are new laws in Australia limiting financial assistance to families where children are not immunised. It is also important for planning medical programs and advertising campaigns.</p>
+<p>This app provides a simple way to see how different types of immunisations are taken up in the comunity when compared to the total immunisation rates. You can also see the variance over time in different regions in Australia.</p>
+<p>To do this I have leveraged publicly available immunisation data from the government.</p>
 </div>
 <div id="getting-the-data" class="slide section level2">
 <h1>Getting the data</h1>
@@ -78,7 +78,7 @@ Natalie Phillips
     }
 }
 <span class="kw">invisible</span>(<span class="kw">apply</span>(dataDetails, <span class="dv">1</span>, readFile))</code></pre></div>
-<p>All eight spreadsheets are then read into a single dataframe noting the unique “date of processing” of each file. This data is now ready for use and further refinement in the shiny app.</p>
+<p>The full data is contained in eight separate spreadsheets. All eight spreadsheets are read into a single dataframe noting the unique “date of processing” of each file. This data is now ready for use and further refinement in the shiny app.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">allframes &lt;-<span class="st"> </span><span class="kw">apply</span>(dataDetails, <span class="dv">1</span>, readFile2)
 
 immDataAll &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind,allframes)
