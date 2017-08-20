@@ -12,7 +12,9 @@ shinyServer(function(input, output) {
 
     output$distPlot <- renderPlot({
 
-        plot(immDataAll$PCT_DTP, immDataAll$PCT_Fully)
+        plot(immDataAll$PCT_DTP, immDataAll$PCT_Fully,
+             ylab = "Total vaccination rate",
+             xlab = "Diphtheria tetanus and pertussis whooping cough")
         
     })
     
