@@ -15,10 +15,13 @@ shinyUI(fluidPage(
         ),
         
         # Show plot of immunisation rates
+        
         mainPanel(
             h2("Vaccination rates"),
             
-            plotOutput('distPlot')
+            plotOutput('distPlot'),
+            
+            plotOutput('distPlot2')
         )
     )
 ))
