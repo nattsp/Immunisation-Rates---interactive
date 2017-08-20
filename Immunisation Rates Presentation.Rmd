@@ -134,16 +134,10 @@ readFile2 <- function(x){
 
 ```{r load,cache=TRUE, echo=TRUE}
 allframes <- apply(dataDetails, 1, readFile2)
-
 immDataAll <- do.call(rbind,allframes)
-
 immDataAll$Age_Group <- ageFactors(immDataAll$Age_Group)
-
 save(immDataAll, file = ".\\data\\processed\\immDataAll.Rda")
-
 summary(immDataAll)
-
-
 ```
 
 

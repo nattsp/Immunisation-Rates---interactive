@@ -80,13 +80,9 @@ Natalie Phillips
 <span class="kw">invisible</span>(<span class="kw">apply</span>(dataDetails, <span class="dv">1</span>, readFile))</code></pre></div>
 <p>The full data is contained in eight separate spreadsheets. All eight spreadsheets are read into a single dataframe noting the unique “date of processing” of each file. This data is now ready for use and further refinement in the shiny app.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">allframes &lt;-<span class="st"> </span><span class="kw">apply</span>(dataDetails, <span class="dv">1</span>, readFile2)
-
 immDataAll &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind,allframes)
-
 immDataAll$Age_Group &lt;-<span class="st"> </span><span class="kw">ageFactors</span>(immDataAll$Age_Group)
-
 <span class="kw">save</span>(immDataAll, <span class="dt">file =</span> <span class="st">&quot;.</span><span class="ch">\\</span><span class="st">data</span><span class="ch">\\</span><span class="st">processed</span><span class="ch">\\</span><span class="st">immDataAll.Rda&quot;</span>)
-
 <span class="kw">summary</span>(immDataAll)</code></pre></div>
 <pre><code>##    PHN_Number                                   PHN_Name  
 ##  NM     : 24   Adelaide                             : 24  
