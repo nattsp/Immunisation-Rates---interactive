@@ -20,7 +20,7 @@ library(ggplot2)
 
 It is important we understand the rate of immunisation in Australia. There are new laws in Australia limiting financial assistance to families where children are not immunised. It is also important for planning medical programs and advertising campaigns.
 
-This app provides a simple way to see how different types of immunisations are taken up in the comunity when compared to the total immunisation rates.  You can also see the variance over time in different regions in Australia.
+This app provides a simple way to see how different types of immunisations are taken up in the comunity when compared to the total immunisation rates.  You can also see the variance over time in different regions in Australia. The app can be found at <https://nattsapps.shinyapps.io/ImmunisationRates/>
 
 To do this I have leveraged publicly available immunisation data from the government.
 
