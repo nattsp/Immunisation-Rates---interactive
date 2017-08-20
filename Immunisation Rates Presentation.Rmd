@@ -9,7 +9,11 @@ output: slidy_presentation
 knitr::opts_chunk$set(echo = FALSE, fig.path = 'figure/')
 library(xlsx)
 library(dplyr)
-library(xlsx)
+library(tidyr)
+library(zoo)
+library(xts)
+library(dygraphs)
+library(ggplot2)
 ```
 
 ## Immunisation Rates in Australia
