@@ -59,11 +59,26 @@ Natalie Phillips
 </div>
 <div id="immunisation-rates-in-australia" class="slide section level2">
 <h1>Immunisation Rates in Australia</h1>
-<p>There are new laws in Australia limiting financial assistance to families where children are not immunised. It is important we understand the rate of immunisation in this country. The statistics in this presentation were gathered from the <a href="http://www.immunise.health.gov.au/">Immunise Australia Program</a> webpage from the Australian Government - Department of Health.</p>
-<p>Create the data folders.</p>
+<p>There are new laws in Australia limiting financial assistance to families where children are not immunised. It is important we understand the rate of immunisation in this country.</p>
+<p>This app provides a simple way to see how different types of immunisations are taken up when compared to the total immunisation rates. You can also see the variance over time in different regions in Australia.</p>
+<p>To do this we have leveraged publicly available immunisation data from the government.</p>
+</div>
+<div id="getting-the-data" class="slide section level2">
+<h1>Getting the data</h1>
+<p>The statistics in this presentation were gathered from the <a href="http://www.immunise.health.gov.au/">Immunise Australia Program</a> webpage from the Australian Government - Department of Health.</p>
 <h3 id="obtaining-and-loading-the-data">Obtaining and loading the data</h3>
-<p>I chose the excel from of the data to down load and stored the details in a file called dataDetails.xlsx. Download the data from the website use a manually collected</p>
-<p>Load the eight spreadsheets into a single dataframe noting the unique “date of processing” of each file.</p>
+<p>I manually compiled the details of the required files in a file called dataDetails.xlsx. I included URL, SheetName, StartRow etc. Before downloaing all files into a local data folder.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">readFile &lt;-<span class="st"> </span>function(x){
+    if(!<span class="kw">file.exists</span>(x[<span class="dv">2</span>])){
+        <span class="kw">download.file</span>(
+            x[<span class="dv">1</span>]
+            ,<span class="dt">destfile =</span> x[<span class="dv">2</span>]
+            ,<span class="dt">mode =</span> <span class="st">&quot;wb&quot;</span>
+        )
+    }
+}
+<span class="kw">invisible</span>(<span class="kw">apply</span>(dataDetails, <span class="dv">1</span>, readFile))</code></pre></div>
+<p>All eight spreadsheets are then read into a single dataframe noting the unique “date of processing” of each file. This data is now ready for use and further refinement in the shiny app.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">allframes &lt;-<span class="st"> </span><span class="kw">apply</span>(dataDetails, <span class="dv">1</span>, readFile2)
 
 immDataAll &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind,allframes)
@@ -72,51 +87,94 @@ immDataAll$Age_Group &lt;-<span class="st"> </span><span class="kw">ageFactors</
 
 <span class="kw">save</span>(immDataAll, <span class="dt">file =</span> <span class="st">&quot;.</span><span class="ch">\\</span><span class="st">data</span><span class="ch">\\</span><span class="st">processed</span><span class="ch">\\</span><span class="st">immDataAll.Rda&quot;</span>)
 
-<span class="kw">head</span>(immDataAll)</code></pre></div>
-<pre><code>##   PHN_Number                   PHN_Name     Age_Group PCT_DTP PCT_Polio
-## 1         NM                 Not mapped 12-&lt;15 Months   88.48     88.48
-## 2     PHN101 Central and Eastern Sydney 12-&lt;15 Months   93.81     93.75
-## 3     PHN102            Northern Sydney 12-&lt;15 Months   95.35     95.32
-## 4     PHN103             Western Sydney 12-&lt;15 Months   93.97     93.89
-## 5     PHN104      Nepean Blue Mountains 12-&lt;15 Months   96.01     96.01
-## 6     PHN105       South Western Sydney 12-&lt;15 Months   93.64     93.67
-##   PCT_HIB PCT_HEP PCT_MMR PCT_Pneumo PCT_MenC PCT_Varicella PCT_Fully
-## 1   87.96   88.48       0      88.48        0             0     87.96
-## 2   93.42   93.71       0      93.04        0             0     92.46
-## 3   95.16   95.20       0      94.86        0             0     94.22
-## 4   93.34   93.72       0      93.37        0             0     92.38
-## 5   95.77   96.01       0      96.01        0             0     95.69
-## 6   93.70   93.67       0      92.98        0             0     92.75
-##   Time_Period
-## 1  2016-12-31
-## 2  2016-12-31
-## 3  2016-12-31
-## 4  2016-12-31
-## 5  2016-12-31
-## 6  2016-12-31</code></pre>
+<span class="kw">summary</span>(immDataAll)</code></pre></div>
+<pre><code>##    PHN_Number                                   PHN_Name  
+##  NM     : 24   Adelaide                             : 24  
+##  PHN101 : 24   Australian Capital Territory         : 24  
+##  PHN102 : 24   Brisbane North                       : 24  
+##  PHN103 : 24   Brisbane South                       : 24  
+##  PHN104 : 24   Central and Eastern Sydney           : 24  
+##  PHN105 : 24   Central Queensland and Sunshine Coast: 24  
+##  (Other):624   (Other)                              :624  
+##          Age_Group      PCT_DTP        PCT_Polio        PCT_HIB     
+##  12-&lt;15 Months:256   Min.   :88.48   Min.   :88.48   Min.   : 0.00  
+##  24-&lt;27 Months:256   1st Qu.:93.70   1st Qu.:93.61   1st Qu.: 0.00  
+##  60-&lt;63 Months:256   Median :94.86   Median :94.74   Median :93.58  
+##                      Mean   :94.79   Mean   :94.67   Mean   :63.01  
+##                      3rd Qu.:96.10   3rd Qu.:95.97   3rd Qu.:95.13  
+##                      Max.   :99.24   Max.   :98.45   Max.   :98.56  
+##                                                                     
+##     PCT_HEP         PCT_MMR        PCT_Pneumo       PCT_MenC    
+##  Min.   : 0.00   Min.   : 0.00   Min.   : 0.00   Min.   : 0.00  
+##  1st Qu.: 0.00   1st Qu.: 0.00   1st Qu.: 0.00   1st Qu.: 0.00  
+##  Median :93.90   Median :92.11   Median : 0.00   Median : 0.00  
+##  Mean   :63.31   Mean   :62.22   Mean   :31.25   Mean   :31.68  
+##  3rd Qu.:95.71   3rd Qu.:94.01   3rd Qu.:93.00   3rd Qu.:94.29  
+##  Max.   :98.63   Max.   :97.19   Max.   :98.29   Max.   :98.92  
+##                                                                 
+##  PCT_Varicella     PCT_Fully      Time_Period        
+##  Min.   : 0.00   Min.   :86.08   Min.   :2015-03-31  
+##  1st Qu.: 0.00   1st Qu.:91.31   1st Qu.:2015-09-07  
+##  Median : 0.00   Median :92.69   Median :2016-02-14  
+##  Mean   :30.85   Mean   :92.49   Mean   :2016-02-14  
+##  3rd Qu.:91.64   3rd Qu.:93.89   3rd Qu.:2016-07-23  
+##  Max.   :96.04   Max.   :98.29   Max.   :2016-12-31  
+## </code></pre>
 </div>
-<div id="slide-with-bullets" class="slide section level2">
-<h1>Slide with Bullets</h1>
-<ul>
-<li>Bullet 1</li>
-<li>Bullet 2</li>
-<li>Bullet 3</li>
-</ul>
+<div id="interactive-vaccination-rates-plot" class="slide section level2">
+<h1>Interactive vaccination rates plot</h1>
+<p>To provide a clear way to view vaccination rates for different types of vaccine I have provide an interactive plot that allows you to choose which vaccine to compare to the rates of fully vaccinated children. This can be useful to show if there is higher risk of particular illness in Australian children.</p>
+<p>Depending on which vaccination rate you choose I subset the data and plot the output. A short extract of some server.R commands follows. In the real server.R there is one plotData command for each vaccination type:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;./data/immDataAll.Rda&quot;</span>)
+<span class="kw">shinyServer</span>(function(input, output) {
+    output$distPlot &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({
+        if (input$vacc==<span class="st">'PCT_DTP'</span>){
+            plotData &lt;-<span class="st"> </span>immDataAll %&gt;%<span class="st"> </span>
+<span class="st">                </span><span class="kw">select</span>(PCT_DTP, PCT_Fully) %&gt;%
+<span class="st">                </span><span class="kw">filter</span>(PCT_DTP &gt;<span class="st"> </span><span class="dv">0</span>)
+        } else if (input$vacc==<span class="st">&quot;PCT_Polio&quot;</span>){
+            plotData &lt;-<span class="st"> </span>immDataAll %&gt;%<span class="st"> </span>
+<span class="st">                </span><span class="kw">select</span>(PCT_Polio, PCT_Fully) %&gt;%
+<span class="st">                </span><span class="kw">filter</span>(PCT_Polio &gt;<span class="st"> </span><span class="dv">0</span>)
+        } else if (input$vacc==<span class="st">&quot;PCT_HIB&quot;</span>) {
+            
+        ...
+
+        
+        <span class="kw">plot</span>(plotData$x,
+             plotData$PCT_Fully,
+             
+             <span class="dt">main=</span><span class="st">&quot;Total vaccination rate against individual vaccinations&quot;</span>,
+             <span class="dt">ylab =</span> <span class="st">&quot;Total vaccination rate&quot;</span>,
+             
+             <span class="dt">xlab =</span> if (input$vacc==<span class="st">'PCT_DTP'</span>){
+                 xlab =<span class="st"> &quot;Diphtheria tetanus and pertussis whooping cough&quot;</span>
+             } else if (input$vacc==<span class="st">&quot;PCT_Polio&quot;</span>){
+                 xlab =<span class="st"> &quot;Polio&quot;</span>
+                 
+            ...</code></pre></div>
 </div>
-<div id="slide-with-r-output" class="slide section level2">
-<h1>Slide with R Output</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(cars)</code></pre></div>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
-</div>
-<div id="slide-with-plot" class="slide section level2">
-<h1>Slide with Plot</h1>
-<p><img src="data:image/png;base64,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" width="768" /></p>
+<div id="total-vaccination-rate---time-series-plot-by-region" class="slide section level2">
+<h1>Total vaccination rate - time series plot by region</h1>
+<p>It is important to be able to see if there is variation in vaccination rates across regions of Australia. This is useful for medical planning and to see if advertising campaigns are effective.</p>
+<p>This data needed more manipulation in order to plot the changes over time for the different regions. In order to show more than one time series the data was first made long. Then I subsetted the data to a managable number of datapoints. I choose fully imminised rates for the oldest bracket of children across all regions and times.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">immDataLong &lt;-<span class="st"> </span>immDataAll %&gt;%
+<span class="st">    </span><span class="kw">gather</span>(<span class="st">&quot;Vaccination&quot;</span>, <span class="st">&quot;Percent&quot;</span>, <span class="dv">4</span>:<span class="dv">12</span>)
+
+immDataRegion &lt;-<span class="st"> </span>immDataLong %&gt;%
+<span class="st">    </span><span class="kw">filter</span>(Age_Group ==<span class="st"> &quot;60-&lt;63 Months&quot;</span>) %&gt;%
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">Region_Type =</span> <span class="kw">paste</span>(PHN_Name,Vaccination, <span class="dt">sep =</span> <span class="st">&quot;_&quot;</span>)) %&gt;%
+<span class="st">    </span><span class="kw">select</span>(<span class="kw">c</span>(Region_Type, Time_Period, Percent)) %&gt;%
+<span class="st">    </span><span class="kw">filter</span>(<span class="kw">grepl</span>(<span class="st">'Fully'</span>, Region_Type))
+
+<span class="kw">head</span>(immDataRegion)</code></pre></div>
+<pre><code>##                            Region_Type Time_Period Percent
+## 1                 Not mapped_PCT_Fully  2016-12-31   91.43
+## 2 Central and Eastern Sydney_PCT_Fully  2016-12-31   92.14
+## 3            Northern Sydney_PCT_Fully  2016-12-31   90.06
+## 4             Western Sydney_PCT_Fully  2016-12-31   92.91
+## 5      Nepean Blue Mountains_PCT_Fully  2016-12-31   93.21
+## 6       South Western Sydney_PCT_Fully  2016-12-31   93.95</code></pre>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->

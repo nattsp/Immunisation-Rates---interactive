@@ -18,9 +18,16 @@ library(ggplot2)
 
 ## Immunisation Rates in Australia
 
-There are new laws in Australia limiting financial assistance to families where children are not immunised. It is important we understand the rate of immunisation in this country. The statistics in this presentation were gathered from the [Immunise Australia Program](http://www.immunise.health.gov.au/) webpage from the Australian Government - Department of Health.
+There are new laws in Australia limiting financial assistance to families where children are not immunised. It is important we understand the rate of immunisation in this country. 
 
-Create the data folders.
+This app provides a simple way to see how different types of immunisations are taken up when compared to the total immunisation rates.  You can also see the variance over time in different regions in Australia.
+
+To do this we have leveraged publicly available immunisation data from the government.
+
+
+## Getting the data
+
+The statistics in this presentation were gathered from the [Immunise Australia Program](http://www.immunise.health.gov.au/) webpage from the Australian Government - Department of Health.
 
 
 ```{r creatDataFolder, message=FALSE, warning=FALSE}
@@ -38,7 +45,7 @@ if (!file.exists("data\\processed")){
 
 ### Obtaining and loading the data
 
-I chose the excel from of the data to down load and stored the details in a file called dataDetails.xlsx. Download the data from the website use a manually collected 
+I manually compiled the details of the required files in a file called dataDetails.xlsx. I included URL, SheetName, StartRow etc. Before downloaing all files into a local data folder.
 
 
 ```{r download, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
@@ -55,7 +62,9 @@ dataDetails <- read.xlsx2(
         ,"character"
     )
 )
+```
 
+```{r show, echo = TRUE}
 readFile <- function(x){
     if(!file.exists(x[2])){
         download.file(
@@ -69,7 +78,7 @@ invisible(apply(dataDetails, 1, readFile))
 
 ```
 
-Load the eight spreadsheets into a single dataframe noting the unique "date of processing" of each file.
+All eight spreadsheets are then read into a single dataframe noting the unique "date of processing" of each file. This data is now ready for use and further refinement in the shiny app.
 
 ```{r defineFun, echo=FALSE}
 immClasses <- c(
@@ -132,26 +141,67 @@ immDataAll$Age_Group <- ageFactors(immDataAll$Age_Group)
 
 save(immDataAll, file = ".\\data\\processed\\immDataAll.Rda")
 
-head(immDataAll)
+summary(immDataAll)
 
 
 ```
 
-## Slide with Bullets
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
 
-## Slide with R Output
+## Interactive vaccination rates plot
 
-```{r cars, echo = TRUE}
-summary(cars)
+To provide a clear way to view vaccination rates for different types of vaccine I have provide an interactive plot that allows you to choose which vaccine to compare to the rates of fully vaccinated children. This can be useful to show if there is higher risk of particular illness in Australian children.
+
+Depending on which vaccination rate you choose I subset the data and plot the output. A short extract of some server.R commands follows. In the real server.R there is one plotData command for each vaccination type:
+
+```{r interactive, echo=TRUE, eval=FALSE}
+load("./data/immDataAll.Rda")
+shinyServer(function(input, output) {
+    output$distPlot <- renderPlot({
+        if (input$vacc=='PCT_DTP'){
+            plotData <- immDataAll %>% 
+                select(PCT_DTP, PCT_Fully) %>%
+                filter(PCT_DTP > 0)
+        } else if (input$vacc=="PCT_Polio"){
+            plotData <- immDataAll %>% 
+                select(PCT_Polio, PCT_Fully) %>%
+                filter(PCT_Polio > 0)
+        } else if (input$vacc=="PCT_HIB") {
+            
+        ...
+
+        
+        plot(plotData$x,
+             plotData$PCT_Fully,
+             
+             main="Total vaccination rate against individual vaccinations",
+             ylab = "Total vaccination rate",
+             
+             xlab = if (input$vacc=='PCT_DTP'){
+                 xlab = "Diphtheria tetanus and pertussis whooping cough"
+             } else if (input$vacc=="PCT_Polio"){
+                 xlab = "Polio"
+                 
+            ...
 ```
 
-## Slide with Plot
 
-```{r pressure}
-plot(pressure)
+## Total vaccination rate - time series plot by region
+
+It is important to be able to see if there is variation in vaccination rates across regions of Australia. This is useful for medical planning and to see if advertising campaigns are effective.
+
+This data needed more manipulation in order to plot the changes over time for the different regions. In order to show more than one time series the data was first made long. Then I subsetted the data to a managable number of datapoints. I choose fully imminised rates for the oldest bracket of children across all regions and times.
+
+```{r timeSeries, echo=TRUE}
+immDataLong <- immDataAll %>%
+    gather("Vaccination", "Percent", 4:12)
+
+immDataRegion <- immDataLong %>%
+    filter(Age_Group == "60-<63 Months") %>%
+    mutate(Region_Type = paste(PHN_Name,Vaccination, sep = "_")) %>%
+    select(c(Region_Type, Time_Period, Percent)) %>%
+    filter(grepl('Fully', Region_Type))
+
+head(immDataRegion)
 ```
 
