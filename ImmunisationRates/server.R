@@ -9,7 +9,7 @@ library(shiny)
 
 # Logic for drawing plot
 shinyServer(function(input, output) {
-    
+
     output$distPlot <- renderPlot({
 
         plot(immDataAll$PCT_DTP, immDataAll$PCT_Fully)

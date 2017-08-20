@@ -37,3 +37,10 @@ head(immRegionTS)
 ggplot(immDataRegion, aes(x=Time_Period, y=Percent, 
                         colour = Region_Type, group=Region_Type)) +
     geom_line()
+
+
+####### map vaccines with total
+
+names(immDataAll)
+
+
