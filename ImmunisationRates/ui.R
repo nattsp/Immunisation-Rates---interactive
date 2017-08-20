@@ -21,8 +21,7 @@ shinyUI(fluidPage(
                            "Measles-mumps-rubella vaccine" = "PCT_MMR",
                            "Pneumonia (lung infection) " = "PCT_Pneumo",
                            "Meningococcal C" = "PCT_MenC",
-                           "Varicella (chickenpox)" = "PCT_Varicella",
-                           "Rates of  all vaccinations" = "PCT_Fully"))
+                           "Varicella (chickenpox)" = "PCT_Varicella"))
         ),
         
         # Show plot of immunisation rates

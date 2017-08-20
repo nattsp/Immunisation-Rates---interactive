@@ -14,7 +14,26 @@ shinyServer(function(input, output) {
 
         plot(immDataAll$PCT_DTP, immDataAll$PCT_Fully,
              ylab = "Total vaccination rate",
-             xlab = "Diphtheria tetanus and pertussis whooping cough")
+             
+             #xlab = "Diphtheria tetanus and pertussis whooping cough")
+             xlab = if (input$vacc=='PCT_DTP'){
+                 xlab = "Diphtheria tetanus and pertussis whooping cough"
+             } else if (input$vacc=="PCT_Polio"){
+                 xlab = "Polio"
+             } else if (input$vacc=="PCT_HIB") {
+                 xlab = "Haemophilus influenzae type b causes meningitis"
+             } else if (input$vacc=="PCT_HEP") {
+                 xlab = "Hepatitis"
+             } else if (input$vacc=="PCT_MMR") {
+                 xlab = "Measles-mumps-rubella vaccine"
+             } else if (input$vacc=="PCT_Pneumo") {
+                 xlab = "Pneumonia lung infection"
+             } else if (input$vacc=="PCT_MenC") {
+                 xlab = "Meningococcal C"
+             } else {
+                 xlab = "Varicella chickenpox"
+             } 
+             )
         
     })
     
