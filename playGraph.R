@@ -38,6 +38,11 @@ ggplot(immDataRegion, aes(x=Time_Period, y=Percent,
                         colour = Region_Type, group=Region_Type)) +
     geom_line()
 
+save(immDataRegion, file = ".\\data\\processed\\immDataRegion.Rda")
+save(immRegionTS, file = ".\\data\\processed\\immRegionTS.Rda")
+save(immDataRegion, file = "immDataRegion.Rda")
+playData <- load(file = ".\\data\\processed\\immDataRegion.Rda")
+head(playData)
 
 ####### map vaccines with total
 
