@@ -14,9 +14,7 @@ library(xlsx)
 
 ## Immunisation Rates in Australia
 
-There are new laws in Australia limiting financial assistance to families where children are not immunised. It is important we understand the rate of immunisation in this country.
-
-The statistics in this presentation were gathered from the [Immunise Australia Program](http://www.immunise.health.gov.au/) webpage from the Australian Government - Department of Health.
+There are new laws in Australia limiting financial assistance to families where children are not immunised. It is important we understand the rate of immunisation in this country. The statistics in this presentation were gathered from the [Immunise Australia Program](http://www.immunise.health.gov.au/) webpage from the Australian Government - Department of Health.
 
 Create the data folders.
 
@@ -34,7 +32,9 @@ if (!file.exists("data\\processed")){
 }
 ```
 
-Download the data from the website.
+### Obtaining and loading the data
+
+I chose the excel from of the data to down load and stored the details in a file called dataDetails.xlsx. Download the data from the website use a manually collected 
 
 
 ```{r download, echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}
