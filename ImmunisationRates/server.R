@@ -79,6 +79,9 @@ shinyServer(function(input, output) {
     output$distPlot2 <- renderPlot({
         ggplot(immDataRegion, aes(x=Time_Period, y=Percent, 
                                   colour = Region_Type, group=Region_Type)) +
-            geom_line()
+            geom_line() +
+            labs( title = "Variation of full immunisation rates for each zone across time") +
+            theme(plot.title = element_text(family = "Trebuchet MS", face="bold", size=14, hjust=0))
+        
     })
 })
